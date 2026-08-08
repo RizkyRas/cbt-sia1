@@ -63,4 +63,22 @@ class User extends Authenticatable implements FilamentUser, HasAvatar
         }
         return null;
     }
+
+    /**
+     * Hapus foto lama dari storage saat foto profil diganti atau saat user dihapus.
+     */
+    protected static function booted(): void
+    {
+        static::updating(function (User $user) {
+            if ($user->isDirty('photo_path') && $user->getOriginal('photo_path')) {
+                Storage::disk('public')->delete($user->getOriginal('photo_path'));
+            }
+        });
+
+        static::deleting(function (User $user) {
+            if ($user->photo_path) {
+                Storage::disk('public')->delete($user->photo_path);
+            }
+        });
+    }
 }

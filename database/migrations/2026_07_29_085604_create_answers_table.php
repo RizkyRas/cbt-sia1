@@ -14,11 +14,13 @@ return new class extends Migration
     {
         Schema::create('answers', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(Question::class)
-                ->constrained()->cascadeOnDelete();
-            $table->char('letter');
+
+            $table->foreignIdFor(Question::class)->constrained()->cascadeOnDelete();
+            $table->char('option', 1); // A, B, C, atau D
             $table->string('text');
+            $table->boolean('is_correct')->default(false);
             $table->boolean('is_active')->default(true);
+            $table->softDeletes();
             $table->timestamps();
         });
     }
