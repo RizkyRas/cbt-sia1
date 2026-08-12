@@ -151,7 +151,7 @@ class SubjectResource extends Resource
                     ->icon('heroicon-o-document-text')
                     ->color('info')
                     ->url(fn (Subject $record): string => QuestionResource::getUrl('index', [
-                        'tableFilters' => [
+                        'filters' => [
                             'subject_id' => ['value' => $record->id],
                         ],
                     ])),
