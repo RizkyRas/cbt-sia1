@@ -30,7 +30,6 @@ class QuestionForm
                     ->columnSpanFull(),
                 Toggle::make('is_active')
                     ->required(),
-
                 Repeater::make('answers')
                     ->relationship()
                     ->label('Pilihan Jawaban')
@@ -49,7 +48,21 @@ class QuestionForm
                             ->required()
                             ->columnSpan(2),
                         Toggle::make('is_correct')
-                            ->label('Jawaban benar'),
+                            ->label('Jawaban benar')
+                            ->live()
+                            ->afterStateUpdated(function (bool $state, callable $set, callable $get) {
+                                if (! $state) {
+                                    return;
+                                }
+
+                                $answers = $get('../../answers');
+
+                                foreach ($answers as $key => $answer) {
+                                    $set("../../answers.{$key}.is_correct", false);
+                                }
+
+                                $set('is_correct', true);
+                            }),
                     ])
                     ->columns(4)
                     ->defaultItems(4)

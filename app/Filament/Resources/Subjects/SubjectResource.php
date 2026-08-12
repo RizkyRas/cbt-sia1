@@ -2,9 +2,11 @@
 
 namespace App\Filament\Resources\Subjects;
 
+use App\Filament\Resources\Questions\QuestionResource;
 use App\Filament\Resources\Subjects\Pages\ManageSubjects;
 use App\Models\Subject;
 use BackedEnum;
+use Filament\Actions\Action;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\DeleteBulkAction;
@@ -144,6 +146,15 @@ class SubjectResource extends Resource
                     ->native(false),
             ])
             ->recordActions([
+                Action::make('lihatSoal')
+                    ->label('Lihat Soal')
+                    ->icon('heroicon-o-document-text')
+                    ->color('info')
+                    ->url(fn (Subject $record): string => QuestionResource::getUrl('index', [
+                        'tableFilters' => [
+                            'subject_id' => ['value' => $record->id],
+                        ],
+                    ])),
                 ViewAction::make(),
                 EditAction::make(),
                 DeleteAction::make(),
