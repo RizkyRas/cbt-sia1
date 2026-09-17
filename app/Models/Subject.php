@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -18,5 +19,11 @@ class Subject extends Model
     public function questions(): HasMany
     {
         return $this->hasMany(Question::class);
+    }
+
+    // relasi many-to-many dengan model Exam
+    public function exams(): BelongsToMany
+    {
+        return $this->belongsToMany(Exam::class)->withPivot('qty');
     }
 }
