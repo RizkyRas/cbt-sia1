@@ -22,4 +22,23 @@ class EditQuestion extends EditRecord
             RestoreAction::make(),
         ];
     }
+
+    protected function afterSave(): void
+    {
+        $this->assignAnswerOptions();
+    }
+
+    protected function assignAnswerOptions(): void
+    {
+        $letters = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'];
+
+        $this->record->answers()
+            ->orderBy('id')
+            ->get()
+            ->each(function ($answer, $index) use ($letters) {
+                $answer->update([
+                    'option' => $letters[$index] ?? null,
+                ]);
+            });
+    }
 }
