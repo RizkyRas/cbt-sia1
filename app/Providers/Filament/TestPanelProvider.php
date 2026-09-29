@@ -3,6 +3,7 @@
 namespace App\Providers\Filament;
 
 use App\Filament\Test\Pages\StudentLogin;
+use App\Filament\Test\Pages\StudentProfile;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\AuthenticateSession;
 use Filament\Http\Middleware\DisableBladeIconComponents;
@@ -28,6 +29,7 @@ class TestPanelProvider extends PanelProvider
             ->id('test')
             ->path('ujian')
             ->login(StudentLogin::class)
+            ->profile(StudentProfile::class, isSimple: false)
             ->colors([
                 'primary' => Color::Amber,
             ])
